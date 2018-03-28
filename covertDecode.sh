@@ -50,18 +50,15 @@ chmod 666 tenOut.txt
 HOST='jeangourd.com'
 USER='anonymous'
 PASSWD=''
-sevenFile='sevenOut.txt'
-tenFile='tenOut.txt'
 
-ftp -n $HOST <<END_SCRIPT
+ftp -n $HOST > /dev/null <<END_SCRIPT
 quote USER $USER
 quote PASS $PASSWD
 cd 7
-ls -Rl $sevenFile
+ls -Rl sevenOut.txt
 y
-cd ..
-cd 10
-ls -Rl $tenFile
+cd ../10
+ls -Rl tenOut.txt
 y
 exit
 END_SCRIPT
@@ -70,8 +67,8 @@ END_SCRIPT
 sevenList="$(grep -o [dl-][r-][w-][x-][r-][w-][x-][r-][w-][x-] < sevenOut.txt)"
 tenList="$(grep -o [dl-][r-][w-][x-][r-][w-][x-][r-][w-][x-] < tenOut.txt)"
 
-#rm sevenOut.txt
-#rm tenOut.txt
+rm sevenOut.txt
+rm tenOut.txt
 
 
 sevenBit=""

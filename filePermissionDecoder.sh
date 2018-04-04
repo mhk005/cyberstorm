@@ -1,13 +1,16 @@
 #!/bin/bash
 
 
+
+#-------------------------------------------------------------------------------
 # Written By: Mark Harms                                           TEAM PATIENCE
 #-------------------------------------------------------------------------------
-# USAGE: bash filePermissionDecoder.sh -[se][tf][0-9] [directoryPath]
+# USAGE: bash filePermissionDecoder.sh -[se][tf][0-9] [directoryPath] [ftpServer] [USER] [PASS]
 # Examples:
 #		bash filePermissionDecoder.sh -et8 ~/Desktop/permissionMsg
 #		bash filePermissionDecoder.sh -st7 ~/Desktop/permissionMsg2
 #		bash filePermissionDecoder.sh ~/Dektop/permissionMsg
+#		bash filePermissionDecoder.sh messagePath jeangourd.com anonymous ""
 #-------------------------------------------------------------------------------
 # DESCRIPTION: 
 #   This program takes a directory path and parses file permissions
@@ -130,9 +133,13 @@ permissionDecoder ()
 
 
 
-# Default flag values
+# Default script values
 ignoreCount=0
 skipFlag="false"
+USER="anonymous"
+PASS=""
+
+
 
 # Get the passed in options and set the associated flag values
 while getopts ":setf0123456789" option;
@@ -166,23 +173,74 @@ do
 done
 
 
+# Get passed in variables
+# If we pass in flags we need to offset vars by 1
+if [ "$pSet" = "true" ] 
+then	
+	# Directory to read from
+	dirPath="$2"
+
+	# -n tests if the variable is set
+
+	# if we pass in a host set it and set a flag that we are using ftp
+	if [ -n "$3" ] 
+	then
+		HOST="$3"
+		ftpConnect="true"
+	fi
+	if [ -n "$4" ] # user passed in a username
+	then
+		USER="$4"
+	fi
+	if [ -n "$5" ] # user passed in a password
+	then
+		PASS="$5"
+	fi
+else
+	dirPath="$1"
+	
+	if [ -n "$2" ]
+	then
+		HOST="$2"
+		ftpConnect="true"
+	fi
+	if [ -n "$3" ]
+	then
+		USER="$3"
+	fi
+	if [ -n "$4" ]
+	then
+		PASS="$4"
+	fi
+fi
+
 
 # Body of the script
 
-# Get the directory path we take the message from
-if [ "$pSet" = "true" ]
+if [ "$ftpConnect" = "true" ]
 then
-	dirPath="$2"
+	touch filepermissionout.txt
+	chmod 666 filepermissionout.txt
+
+	ftp -n $HOST > /dev/null <<END_SCRIPT
+	quote USER $USER
+	quote PASS $PASS
+	cd $dirPath
+	ls -l filepermissionout.txt
+	y
+	exit
+END_SCRIPT
+	# pInput is passed to permissionDecoder
+	pInput="$(grep -o [dl-][r-][w-][x-][r-][w-][x-][r-][w-][x-] < filepermissionout.txt)"
+	rm filepermissionout.txt
+
 else
-	dirPath="$1"
+	# pInput is passed to permissionDecoder
+	pInput="$(ls -l $dirPath | grep -o [dl-][r-][w-][x-][r-][w-][x-][r-][w-][x-])"
 fi
 
-echo $dirPath 
-
-
-# pInput is passed to permissionDecoder
-pInput="$(ls -l $dirPath | grep -o [dl-][r-][w-][x-][r-][w-][x-][r-][w-][x-])"
 permissionDecoder
+
 
 # input is passed to seven/eightBitDecoder
 input=$bitHolder

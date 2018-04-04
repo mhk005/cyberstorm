@@ -33,7 +33,7 @@ def convEight(binary):
     return(''.join(endString))
 
 ip = "localhost"
-port = 33336
+port = 33338
 timeList = []
 s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 s.connect((ip,port))                
@@ -52,6 +52,7 @@ if len(timeList) > 0:
 else:
     print("no times received!!")
     quit()
+
 for i in timeList:
     flag = True
     for j in times:
@@ -60,7 +61,7 @@ for i in timeList:
     if flag:
         times.append(i)
 
-
+print "The times are "+str(times)
 for time1 in times:
     for time2 in times:
         if time1 != time2:

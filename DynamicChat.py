@@ -3,6 +3,7 @@ import sys
 from time import time
 from binascii import unhexlify
 
+Interval = .02
 def convEight(binary):
 
     #Builds an array of characters to be joined at end into string.
@@ -56,7 +57,7 @@ else:
 for i in timeList:
     flag = True
     for j in times:
-        if (i > (j - .01) and i < (j + .01)):
+        if (i > (j - Interval) and i < (j + Interval)):
             flag = False
     if flag:
         times.append(i)
@@ -67,9 +68,9 @@ for time1 in times:
         if time1 != time2:
             bin_string = []
             for i in timeList:
-                if i > (time1 - .01) and i < (time1 + .01):
+                if i > (time1 - Interval) and i < (time1 + Interval):
                     bin_string.append('1')
-                elif i > (time2 - .01) and i < (time2 + .01):
+                elif i > (time2 - Interval) and i < (time2 + Interval):
                     bin_string.append('0')
             #fin_string = convEight(bin_string)
             print("If "+str(time1) + " was a 1 and "+str(time2)+" was a 0, the output is :"+ convEight(bin_string))

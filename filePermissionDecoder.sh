@@ -222,7 +222,7 @@ then
 	touch filepermissionout.txt
 	chmod 666 filepermissionout.txt
 
-	ftp -n $HOST > /dev/null <<END_SCRIPT
+	ftp -n $HOST > debug.txt <<END_SCRIPT
 	quote USER $USER
 	quote PASS $PASS
 	cd $dirPath

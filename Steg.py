@@ -8,6 +8,7 @@ OFFSET = 1024
 INTERVAL = 1
 WRAPPER = "unset"
 HIDDEN = "unset"
+ENDIAN = False
 
 
 arguments = sys.argv[1:]
@@ -26,6 +27,9 @@ for args in arguments:
 		ENCODE = True
 	if "-r" in args[0:2]:
 		ENCODE = False
+
+	if "-e" in args[0:2]:
+		ENDIAN = True
 
 	if "-o" in args[0:2]:
 		OFFSET = int(args[2:] )	 
@@ -123,10 +127,14 @@ else: # We are decoding
 			#Instantiates a new string that is null
 			newString = ""
 			for bit in range(0,8):
-				#For the length of the hidden byte, grab the last digit in the index, and add it to the string
-				newString += storage_bin[OFFSET][7]
-				#Can be changed, but increment down the OFFSET to get the next least significant bit
-				OFFSET+=INTERVAL
+				if (ENDIAN):
+						newString = storage_bin[OFFSET][7] + newString
+				else:
+					#For the length of the hidden byte, grab the last digit in the index, and add it to the string
+					newString += storage_bin[OFFSET][7]
+					#Can be changed, but increment down the OFFSET to get the next least significant bit
+					OFFSET+=INTERVAL
+
 			#Once the bit is full, add it to the newFile string
 			newFile.append(newString)
 			

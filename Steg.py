@@ -42,7 +42,7 @@ for args in arguments:
 		HIDDEN = args[2:]
 
 #Can be hardcoded, as the sentinel will not change
-#sentinel_bytes = [chr(0x0),chr(0xFF),chr(0x0),chr(0x0),chr(0xFF),chr(0x0)]
+sentinel_bytes = [chr(0x0),chr(0xFF),chr(0x0),chr(0x0),chr(0xFF),chr(0x0)]
 sentinel_string = '000000001111111100000000000000001111111100000000'
 sentinel_binary = ["00000000", "11111111", "00000000", "00000000", "11111111", "00000000"]
 
@@ -56,17 +56,19 @@ if (ENCODE == "unset"):
 
 def fileToBinary(fileName):
 	binaryArray = []
-	with open(fileName, "rb") as f:
-		byte = f.read(1)
-		while byte != "":
-			binaryArray.append((''.join('{0:08b}'.format(x, 'b') for x in bytearray(byte))))
-			byte = f.read(1)
+	f = open(fileName, "rb")
+	contents = f.read()
+	f.close
+
+	binaryArray = bytearray(contents)
+		
 	return binaryArray
 
 #Takes in an array, and iterates through the entire array to produce a new image.
 def output(outputArr):
-	for byte in outputArr:			  
-		sys.stdout.write(chr(int(byte,2)))
+	for byte in outputArr:
+		sys.stdout.write(byte)
+		#sys.stdout.write(chr(int(byte,2)))
 	
 #Two different flows of program, one if encoding and one if we are decoding
 if(ENCODE):
@@ -114,33 +116,54 @@ if(ENCODE):
 
 else: # We are decoding
 
+	#sys.stdout.write(''.join(sentinel_bytes))
+	#exit()
+
 	storage_bin = fileToBinary(WRAPPER)
 
-
 	newFile = []
-	senLength = len(sentinel_string)
+	senLength = len(sentinel_bytes)
 	#While the string value of the sentinel string is not at the very end of the array, keep looping.
 	#Eventually the sentinel will be added, will be noticed, and then promptly removed.
-	while sentinel_string not in ''.join(newFile[-senLength:]):
+	while sentinel_bytes != newFile[-senLength:]:
 		if (BIT):
+
+
 
 			#Instantiates a new string that is null
 			newString = ""
 			for bit in range(0,8):
 				if (ENDIAN):
-						newString = storage_bin[OFFSET][7] + newString
+					
+					# Get the last bit and add it to the beginning of our 'byte'
+					newString = str(1 & storage_bin[OFFSET]) + newString
 				else:
+					#sys.stdout.write(str(storage_bin[OFFSET])+"\n")
+					#exit()
+					
+					# Get the last bit and add it to the end of our 'byte'
+					newString += str(1 & storage_bin[OFFSET])
+
+
 					#For the length of the hidden byte, grab the last digit in the index, and add it to the string
-					newString += storage_bin[OFFSET][7]
 					#Can be changed, but increment down the OFFSET to get the next least significant bit
 					OFFSET+=INTERVAL
 
 			#Once the bit is full, add it to the newFile string
-			newFile.append(newString)
+			newFile.append(chr(int(newString,2)))
 			
 		else:
+
+			#output(newFile[-senLength:])
+			#sys.stdout.write('\n')
+			#exit()
+
+			byte = chr(storage_bin[OFFSET])
+
+			
+
 			#Grab the entire byte in storage bin, and add it to the newFile list
-			newFile.append(storage_bin[OFFSET])
+			newFile.append(byte)
 			#Increase by the INTERVAL passed in to reach the next value stored.
 			OFFSET+=INTERVAL
 	#Remove the sentinel from the end of the array

@@ -1,0 +1,45 @@
+This file takes all final version programs in the github and documents their usage
+
+Note:
+Arguments encased in [] are OPTIONAL
+Arguments that are partially variable will have {} around variable parts
+Ex: [TimeInterval] -w{wrapperFile}
+
+--------------------------------------------------------------------------------
+binaryDecoder.sh													    	BASH
+
+bash binaryDecoder.sh < input.txt
+--------------------------------------------------------------------------------
+DynamicChat.py															  PYTHON
+
+python DynamicChat.py [TimeInterval] [IP] [Port]
+--------------------------------------------------------------------------------
+filePermissionDecoder.sh												    BASH
+
+bash filePermissionDecoder.sh -{e/s}{t/f}{0-9} [directoryPath] [ftpServer] [USER] [PASS]
+--------------------------------------------------------------------------------
+fileRenamer.sh															    BASH
+
+bash fileRenamer.sh directoryName
+--------------------------------------------------------------------------------
+Steg.py																	  PYTHON
+
+python Steg.py -{b/B} -{s/r} -o{value} -i{value} -w{fileName} [-h{fileName}]
+--------------------------------------------------------------------------------
+stegIterator.sh																BASH
+
+bash stegIterator.sh -{b/B} [interval] [offset]
+--------------------------------------------------------------------------------
+Timelock.py																  PYTHON
+
+python Timelock.py < epochFile
+--------------------------------------------------------------------------------
+vigenereCipher.sh															BASH
+
+bash vigenereCipher.sh -e "keyString" [< sourceText]
+--------------------------------------------------------------------------------
+xor.py																	  PYTHON
+
+python xor.py < file1
+--------------------------------------------------------------------------------
+

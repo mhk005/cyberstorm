@@ -1,0 +1,153 @@
+This file takes all final version programs in the github and documents their usages
+
+Note:
+Arguments encased in [] are OPTIONAL
+Arguments that are partially variable will have {} around variable parts
+Ex: [TimeInterval] -w{wrapperFile}
+
+--------------------------------------------------------------------------------
+binaryDecoder.sh													    	BASH
+
+INPUTS: Stdin: Redirect input from a file containing a binary string
+
+OUTPUT: Decoded string
+
+bash binaryDecoder.sh < input.txt
+--------------------------------------------------------------------------------
+DynamicChat.py															  PYTHON
+
+INPUTS: [TimeInterval]
+		[IP Address]
+		[Port]
+
+OUTPUTS: Raw text of attempts to decode
+
+python DynamicChat.py [TimeInterval] [IP] [Port]
+
+Time Interval is the 'forgiveness' ratio for times being off from eachother
+Default: .02
+
+IP Default: "jeangourd.com"
+
+Port Default: 31337
+--------------------------------------------------------------------------------
+filePermissionDecoder.sh												    BASH
+
+INPUTS:	Arguments -e(eight-bit) -s(seven-bit)
+					  DEFAULT: Both printed
+				  -t(ignore-mode-true) -f(ignore-mode-false)
+				      DEFAULT: false
+				  -[0-9](bit ignore count)
+				      DEFAULT: 0
+		Directory Path (optional)
+		ftpServer (optional)
+		USER
+		PASS
+
+OUTPUT: Outputs decoded string resultant of the file permissions
+
+bash filePermissionDecoder.sh -{e/s}{t/f}{0-9} [directoryPath] [ftpServer] [USER] [PASS]
+
+Directory Path is the location to check for file permission message
+Default: current working directory
+
+ftpServer: IPAddress of the server to look into
+Default: NULL (Will use local machine)
+
+USER: Username to log into the ftp server
+PASS: Password ^  ^   ^    ^   ^   ^
+Default: NULL (both)
+
+--------------------------------------------------------------------------------
+fileRenamer.sh															    BASH
+
+INPUTS: Directory Path (Do not include following /)
+
+OUTPUT: NULL
+
+bash fileRenamer.sh directoryName
+
+Directory Path: The directory where files will be renamed sequentially
+REQUIRED
+
+--------------------------------------------------------------------------------
+Steg.py																	  PYTHON
+
+INPUTS: Arguments:
+			-{b/B} Sets mode to bit/byte
+			-{s/r} Sets mode to store/retrieve
+			-e Enables alternative endian mode (Not operational)
+			-o{value} Runs program with offset of value
+			-i{value} Runs program with interval of value
+			-w{fileName} Uses fileName as the wrapper file
+			[-h{fileName}] Uses fileName as the file to store (-s mode only)
+
+OUTPUT: The new file extracted from the wrapper (-r)
+		No output (-s)
+
+python Steg.py -{b/B} -{s/r} -o{value} -i{value} -w{fileName} [-h{fileName}]
+
+--------------------------------------------------------------------------------
+stegIterator.sh																BASH
+
+INPUTS: -{b/B} Sets mode to bit/byte
+		wrapperFile
+		[interval]
+		[offset]
+
+OUTPUT: Writes files for each successful steg run.
+
+bash stegIterator.sh -{b/B} [interval] [offset]
+
+wrapperFile: File to extract information from
+REQUIRED
+
+interval: interval to START iterating at.
+Default: 1
+
+offset: offset to START iterating at.
+Default: 1
+--------------------------------------------------------------------------------
+Timelock.py																  PYTHON
+
+INPUTS: epochFile
+
+OUTPUT: 4 different hashes (and their strings) against epoch time
+
+python Timelock.py < epochFile
+
+epochFile: File that contains epoch time
+REQUIRED
+--------------------------------------------------------------------------------
+vigenereCipher.sh															BASH
+
+INPUTS: -{e/d} Sets mode to encrypt/decrypt
+		keyString
+		[sourceText]
+
+OUTPUT: Decrypted/Encrypted text
+
+bash vigenereCipher.sh -e "keyString" [< sourceText]
+
+keyString: String to encrypt/decrypt the text with
+REQUIRED
+
+sourceText: Text to encrypt/decrypt
+If left null, users typed input will be translated as they enter lines
+--------------------------------------------------------------------------------
+xor.py																	  PYTHON
+
+INPUTS: file1
+		key
+
+OUTPUT: File containing results of xor
+
+python xor.py < file1
+
+file1: First file to be xor'd with the key
+REQUIRED
+
+key: 2nd file, this file MUST be named key in the working directory (CHANGE THIS)
+AUTO-USED
+--------------------------------------------------------------------------------
+

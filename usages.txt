@@ -28,7 +28,7 @@ python Steg.py -{b/B} -{s/r} -o{value} -i{value} -w{fileName} [-h{fileName}]
 --------------------------------------------------------------------------------
 stegIterator.sh																BASH
 
-bash stegIterator.sh -{b/B} [interval] [offset]
+bash stegIterator.sh directory/ [interval] [offset]
 --------------------------------------------------------------------------------
 Timelock.py																  PYTHON
 

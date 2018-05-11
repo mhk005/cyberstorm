@@ -20,7 +20,7 @@ bash filePermissionDecoder.sh -{e/s}{t/f}{0-9} [directoryPath] [ftpServer] [USER
 --------------------------------------------------------------------------------
 fileRenamer.sh															    BASH
 
-bash fileRenamer.sh directoryName
+bash fileRenamer.sh directoryName [fileType] [fileType]
 --------------------------------------------------------------------------------
 Steg.py																	  PYTHON
 
@@ -36,10 +36,9 @@ python Timelock.py < epochFile
 --------------------------------------------------------------------------------
 vigenereCipher.sh															BASH
 
-bash vigenereCipher.sh -e "keyString" [< sourceText]
+bash vigenereCipher.sh -d "keyString" [< sourceText]
 --------------------------------------------------------------------------------
 xor.py																	  PYTHON
 
-python xor.py < file1
+python xor.py file1 file2
 --------------------------------------------------------------------------------
-

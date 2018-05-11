@@ -62,6 +62,8 @@ Default: NULL (both)
 fileRenamer.sh															    BASH
 
 INPUTS: Directory Path (Do not include following /)
+		[In Filetype]
+		[Out Filetype]
 
 OUTPUT: NULL
 
@@ -70,6 +72,11 @@ bash fileRenamer.sh directoryName
 Directory Path: The directory where files will be renamed sequentially
 REQUIRED
 
+In Filetype: File type of the files to be edited
+Default: NONE
+
+Out Filetype: File type to change the files to
+Default: NONE
 --------------------------------------------------------------------------------
 Steg.py																	  PYTHON
 
@@ -90,8 +97,7 @@ python Steg.py -{b/B} -{s/r} -o{value} -i{value} -w{fileName} [-h{fileName}]
 --------------------------------------------------------------------------------
 stegIterator.sh																BASH
 
-INPUTS: -{b/B} Sets mode to bit/byte
-		wrapperFile
+INPUTS: directory
 		[interval]
 		[offset]
 
@@ -99,8 +105,7 @@ OUTPUT: Writes files for each successful steg run.
 
 bash stegIterator.sh -{b/B} [interval] [offset]
 
-wrapperFile: File to extract information from
-REQUIRED
+directory: Directory to iterate through
 
 interval: interval to START iterating at.
 Default: 1
@@ -138,16 +143,16 @@ If left null, users typed input will be translated as they enter lines
 xor.py																	  PYTHON
 
 INPUTS: file1
-		key
+		fil2
 
 OUTPUT: File containing results of xor
 
-python xor.py < file1
+python xor.py file1 file2
 
-file1: First file to be xor'd with the key
+file1: First file to be xor'd
 REQUIRED
 
-key: 2nd file, this file MUST be named key in the working directory (CHANGE THIS)
-AUTO-USED
+file2: Second file to be xor'd
+REQUIRED
 --------------------------------------------------------------------------------
 

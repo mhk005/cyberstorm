@@ -13,14 +13,20 @@ import sys
 cyphertext = ''
 
 #Stdin takes input by lines, so first grab every line
-for line in sys.stdin:
-    #For every bit in each line, add it to the cyphertext string intialized earlier
-    for bit in line:
-        cyphertext+=bit
+with open(sys.argv[1], "rb") as file:
+     #Read the first bit in the file
+    text = file.read(1)
+    #Continue reading until you get a null character
+    while(len(text) != 0):
+        #Build string with bits
+        cyphertext +=text
+        #read next bit
+        text = file.read(1)
+
 #Initialize an empty string to build upon later
 key = ""
 #Open the file named "key" in current directory
-with open("key","rb") as file:
+with open(sys.argv[2],"rb") as file:
     #Read the first bit in the file
     text = file.read(1)
     #Continue reading until you get a null character
@@ -29,6 +35,7 @@ with open("key","rb") as file:
         key +=text
         #read next bit
         text = file.read(1)
+
 #The Key and the File passed in have to be the same size, otherwise output an error
 if len(key) != len(cyphertext):
     print("ERROR! Key Size and CypherText size must be the same!")
